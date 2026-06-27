@@ -238,16 +238,178 @@ function DetailPage({ project, onBack }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', color: '#AAAACC', fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', marginBottom: '2rem' }}>
                 <FaSpinner style={{ animation: 'spin 1s linear infinite' }} /> Fetching details from GitHub...
               </div>
-            ) : readmeContent ? (
-              <div
-                className="readme-content"
-                dangerouslySetInnerHTML={{ __html: simpleMarkdown(readmeContent) }}
-                style={{ color: '#CCCCDD', fontFamily: 'Poppins, sans-serif', fontSize: '0.95rem', lineHeight: 1.8, marginBottom: '2rem' }}
-              />
             ) : (
-              <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '1rem', color: '#CCCCDD', lineHeight: 1.85, textAlign: 'justify', marginBottom: '2rem' }}>
-                {project.description}
-              </p>
+              <div>
+                {/* Hero Tag and Duration */}
+                {project.heroTag && (
+                  <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+                    <span style={{
+                      fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '0.8rem',
+                      color: '#FFA500', background: 'rgba(255,165,0,0.1)',
+                      border: '1px solid rgba(255,165,0,0.3)', borderRadius: '6px',
+                      padding: '0.4rem 0.8rem'
+                    }}>
+                      {project.heroTag}
+                    </span>
+                    {project.duration && (
+                      <span style={{
+                        fontFamily: 'Poppins, sans-serif', fontWeight: 600, fontSize: '0.8rem',
+                        color: '#00BFFF', background: 'rgba(0,191,255,0.1)',
+                        border: '1px solid rgba(0,191,255,0.3)', borderRadius: '6px',
+                        padding: '0.4rem 0.8rem'
+                      }}>
+                        {project.duration}
+                      </span>
+                    )}
+                  </div>
+                )}
+
+                {/* Overview */}
+                {project.overview && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.8rem' }}>
+                      Project Overview
+                    </h2>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.95rem', color: '#CCCCDD', lineHeight: 1.8, textAlign: 'justify' }}>
+                      {project.overview}
+                    </p>
+                  </div>
+                )}
+
+                {/* Problem Statement */}
+                {project.problemStatement && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.8rem' }}>
+                      Problem Statement
+                    </h2>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.95rem', color: '#CCCCDD', lineHeight: 1.8, textAlign: 'justify' }}>
+                      {project.problemStatement}
+                    </p>
+                  </div>
+                )}
+
+                {/* Architecture */}
+                {project.architecture && project.architecture.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '1rem' }}>
+                      Architecture & Tech Stack
+                    </h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                      {project.architecture.map((item, i) => (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          background: 'rgba(0,191,255,0.05)',
+                          border: '1px solid rgba(0,191,255,0.15)',
+                          borderRadius: '6px', padding: '0.7rem 1rem'
+                        }}>
+                          <span style={{ color: '#00BFFF', fontSize: '0.5rem' }}>▶</span>
+                          <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', color: '#CCCCDD' }}>
+                            {item}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Basic description fallback if no GitHub README */}
+                {!readmeContent && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.8rem' }}>
+                      Description
+                    </h2>
+                    <p style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.95rem', color: '#CCCCDD', lineHeight: 1.8, textAlign: 'justify' }}>
+                      {project.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* GitHub README if available and not generic template */}
+                {readmeContent && !readmeContent.includes('This template provides a minimal setup to get React working in Vite') && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '0.8rem' }}>
+                      GitHub Documentation
+                    </h2>
+                    <div
+                      className="readme-content"
+                      dangerouslySetInnerHTML={{ __html: simpleMarkdown(readmeContent) }}
+                      style={{ color: '#CCCCDD', fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', lineHeight: 1.7 }}
+                    />
+                  </div>
+                )}
+
+                {/* Challenges */}
+                {project.challenges && project.challenges.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '1rem' }}>
+                      Technical Challenges
+                    </h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                      {project.challenges.map((challenge, i) => (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          background: 'rgba(255,165,0,0.05)',
+                          border: '1px solid rgba(255,165,0,0.15)',
+                          borderRadius: '6px', padding: '0.7rem 1rem'
+                        }}>
+                          <span style={{ color: '#FFA500', fontSize: '0.5rem' }}>⚡</span>
+                          <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', color: '#CCCCDD' }}>
+                            {challenge}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Contributions */}
+                {project.contributions && project.contributions.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '1rem' }}>
+                      My Contributions
+                    </h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                      {project.contributions.map((contribution, i) => (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          background: 'rgba(0,255,136,0.05)',
+                          border: '1px solid rgba(0,255,136,0.15)',
+                          borderRadius: '6px', padding: '0.7rem 1rem'
+                        }}>
+                          <span style={{ color: '#00FF88', fontSize: '0.5rem' }}>✓</span>
+                          <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', color: '#CCCCDD' }}>
+                            {contribution}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Future Improvements */}
+                {project.futureImprovements && project.futureImprovements.length > 0 && (
+                  <div style={{ marginBottom: '2rem' }}>
+                    <h2 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.2rem', color: '#ffffff', marginBottom: '1rem' }}>
+                      Future Enhancements
+                    </h2>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                      {project.futureImprovements.map((improvement, i) => (
+                        <div key={i} style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          background: 'rgba(138,43,226,0.05)',
+                          border: '1px solid rgba(138,43,226,0.15)',
+                          borderRadius: '6px', padding: '0.7rem 1rem'
+                        }}>
+                          <span style={{ color: '#8A2BE2', fontSize: '0.5rem' }}>🔮</span>
+                          <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: '0.9rem', color: '#CCCCDD' }}>
+                            {improvement}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             )}
 
             {/* Key Features */}

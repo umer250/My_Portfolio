@@ -163,29 +163,28 @@ export default function Hero() {
                 Projects <span style={{ fontSize: '0.8rem' }}>↗</span>
               </motion.button>
             </Link>
-            <a href={personalInfo.resumeLink} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
-              <motion.button
-                whileHover={{ scale: 1.05, borderColor: '#FFA500', boxShadow: '0 0 16px rgba(255,165,0,0.25)' }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  fontFamily: 'Poppins, sans-serif',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  color: '#000',
-                  background: '#FFA500',
-                  border: '1px solid #FFA500',
-                  borderRadius: '8px',
-                  padding: '0.7rem 1.6rem',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  transition: 'background 0.2s',
-                }}
-              >
-                Resume <span style={{ fontSize: '0.8rem' }}>↗</span>
-              </motion.button>
-            </a>
+            <motion.button
+              whileHover={{ scale: 1.05, borderColor: '#FFA500', boxShadow: '0 0 16px rgba(255,165,0,0.25)' }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => window.open(personalInfo.resumeLink, '_blank', 'noopener,noreferrer')}
+              style={{
+                fontFamily: 'Poppins, sans-serif',
+                fontWeight: 600,
+                fontSize: '0.9rem',
+                color: '#000',
+                background: '#FFA500',
+                border: '1px solid #FFA500',
+                borderRadius: '8px',
+                padding: '0.7rem 1.6rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                transition: 'background 0.2s',
+              }}
+            >
+              Resume <span style={{ fontSize: '0.8rem' }}>↗</span>
+            </motion.button>
           </motion.div>
 
           {/* Social Icons */}

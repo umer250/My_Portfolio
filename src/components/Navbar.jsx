@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-scroll'
 import { motion } from 'framer-motion'
+import { personalInfo } from '../data/portfolioData'
 
 const navLinks = [
   { label: 'Home', to: 'home' },
@@ -89,6 +90,7 @@ export default function Navbar() {
               )}
             </Link>
           ))}
+
         </div>
 
         {/* Mobile Hamburger */}
@@ -132,6 +134,7 @@ export default function Navbar() {
             {link.label}
           </Link>
         ))}
+
       </motion.div>
 
       <style>{`
@@ -188,6 +191,8 @@ export default function Navbar() {
           background: #FFA500;
           border-radius: 2px;
         }
+
+
 
         /* Mobile hamburger */
         .mobile-hamburger {
