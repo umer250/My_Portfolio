@@ -1,138 +1,81 @@
 import { motion } from 'framer-motion';
-import { ExternalLink, ArrowUpRight } from 'lucide-react';
-import { FaGithub as Github } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
+import { ArrowUpRight } from 'lucide-react';
 
 export default function ProjectCard({ project, index }) {
+  const reversed = index % 2 === 1;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.12 }}
-      whileHover={{ y: -10 }}
-      className="group relative glass-card rounded-2xl overflow-hidden flex flex-col cursor-default"
-      style={{ border: '1px solid var(--border)' }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.6 }}
+      className="relative grid lg:grid-cols-2 gap-10 items-center py-10"
     >
-      {/* Project Thumbnail — Gradient Mockup */}
-      <div className={`relative h-48 bg-gradient-to-br ${project.gradient} overflow-hidden flex-shrink-0`}>
-        {/* Decorative grid overlay */}
+      <div className="glow-blob" style={{ width: 420, height: 420, top: '10%', [reversed ? 'right' : 'left']: '5%' }} />
+
+      <div className={`relative ${reversed ? 'lg:order-2' : ''}`}>
         <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `linear-gradient(${project.accentColor}30 1px, transparent 1px), linear-gradient(90deg, ${project.accentColor}30 1px, transparent 1px)`,
-            backgroundSize: '24px 24px',
-          }}
-        />
-        {/* Project initials */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div
-            className="text-5xl font-bold opacity-20 select-none"
-            style={{ fontFamily: 'var(--font-display)', color: project.accentColor }}
-          >
-            {project.title.split(' ').map(w => w[0]).join('').slice(0, 3)}
-          </div>
-        </div>
-        {/* Glow orb */}
-        <div
-          className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full blur-3xl opacity-40 group-hover:opacity-70 transition-opacity duration-500"
-          style={{ background: project.accentColor }}
-        />
-        {/* Featured badge */}
-        {project.featured && (
-          <div
-            className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold"
-            style={{
-              fontFamily: 'var(--font-mono)',
-              background: `${project.accentColor}25`,
-              color: project.accentColor,
-              border: `1px solid ${project.accentColor}40`,
-            }}
-          >
-            Featured
-          </div>
-        )}
-        {/* Arrow indicator */}
-        <motion.div
-          initial={{ opacity: 0, x: 10, y: -10 }}
-          whileHover={{ opacity: 1, x: 0, y: 0 }}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center"
-          style={{ background: `${project.accentColor}30`, color: project.accentColor }}
+          className="group relative rounded-2xl overflow-hidden"
+          style={{ background: project.gradient, aspectRatio: '16 / 11', boxShadow: '0 20px 60px rgba(0,0,0,0.4)' }}
         >
-          <ArrowUpRight size={14} />
-        </motion.div>
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-6 gap-4">
-        <div>
-          <p className="text-xs mb-1" style={{ fontFamily: 'var(--font-mono)', color: project.accentColor }}>
-            {project.subtitle}
-          </p>
-          <h3
-            className="text-xl font-bold mb-2 group-hover:transition-colors"
-            style={{ fontFamily: 'var(--font-display)', color: 'var(--text-primary)' }}
-          >
-            {project.title}
-          </h3>
-          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-            {project.description}
-          </p>
+          <div className="absolute top-0 left-0 right-0 h-9 z-10 flex items-center gap-1.5 px-4" style={{ background: 'rgba(0,0,0,0.35)' }}>
+            <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
+            <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
+            <span className="w-2.5 h-2.5 rounded-full bg-white/40" />
+          </div>
+          {project.image ? (
+            <img
+              src={project.image}
+              alt={`${project.name} screenshot`}
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover object-top pt-9 transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center pt-9">
+              <span style={{ fontSize: '4.5rem', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.35))' }}>{project.glyph}</span>
+            </div>
+          )}
         </div>
 
-        {/* Tech tags */}
-        <div className="flex flex-wrap gap-2 mt-auto">
-          {project.tags.map(tag => (
-            <span
-              key={tag}
-              className="px-2.5 py-0.5 rounded-full text-xs"
-              style={{
-                fontFamily: 'var(--font-mono)',
-                background: `${project.accentColor}12`,
-                color: project.accentColor,
-                border: `1px solid ${project.accentColor}25`,
-              }}
-            >
-              {tag}
-            </span>
+        <div
+          className="relative sm:absolute sm:-bottom-6 sm:left-6 sm:right-6 mt-4 sm:mt-0 rounded-xl p-5"
+          style={{ background: 'rgba(16, 10, 28, 0.85)', backdropFilter: 'blur(12px)', border: '1px solid var(--border)' }}
+        >
+          <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{project.description}</p>
+        </div>
+      </div>
+
+      <div className={reversed ? 'lg:order-1' : ''}>
+        <p className="eyebrow mb-2">{project.type}</p>
+        <h3
+          className="font-extrabold mb-2"
+          style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 2.6vw, 2rem)', color: 'var(--text-primary)' }}
+        >
+          {project.name}
+        </h3>
+        <p className="text-sm font-medium mb-4" style={{ color: 'var(--accent-strong)' }}>
+          {project.techStack.join(', ')}
+        </p>
+
+        <ul className="flex flex-col gap-2 mb-6">
+          {project.highlights.slice(0, 3).map((h, i) => (
+            <li key={i} className="flex gap-2.5 text-sm" style={{ color: 'var(--text-muted)' }}>
+              <span className="mt-2 w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--accent-strong)' }} />
+              {h}
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* Action buttons */}
-        <div className="flex gap-3 pt-2 border-t" style={{ borderColor: 'var(--border)' }}>
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-80"
-              style={{ color: project.accentColor }}
-            >
-              <ExternalLink size={14} />
-              Live Demo
-            </a>
-          )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-80"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              <Github size={14} />
-              GitHub
-            </a>
-          )}
-          {!project.demo && !project.github && (
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>Private project</span>
-          )}
-        </div>
+        {project.githubUrl && (
+          <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="pill-btn">
+            <FaGithub size={15} />
+            GitHub
+            <ArrowUpRight size={13} />
+          </a>
+        )}
       </div>
-
-      {/* Border glow on hover */}
-      <style>{`
-        .group:hover { border-color: ${project.accentColor}35 !important; box-shadow: 0 20px 60px ${project.accentColor}15; }
-      `}</style>
     </motion.div>
   );
 }

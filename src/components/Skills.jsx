@@ -1,109 +1,55 @@
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import * as SiIcons from 'react-icons/si';
-import { techStack } from '../data/portfolioData';
+import { iconMap } from '../data/iconMap';
+import { skillCategories } from '../data/portfolioData';
+
+const allSkills = skillCategories.flatMap(group => group.skills);
+const loopSkills = [...allSkills, ...allSkills];
 
 const Skills = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: 'easeOut',
-      },
-    },
-  };
-
   return (
-    <section id="tech-stack" className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" ref={ref}>
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#FFA500] mb-3">
-            Tech Stack
-          </h2>
-          <p className="text-[#AAAACC] text-base sm:text-lg">
-            ✦ Transforming Ideas into Code ✦
-          </p>
-        </motion.div>
+    <section id="skills" className="py-20 sm:py-24 relative overflow-hidden">
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-center font-extrabold mb-14"
+        style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', color: 'var(--text-primary)' }}
+      >
+        Tools &amp; Technologies
+      </motion.h2>
 
-        {/* Skills Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6"
-        >
-          {techStack.map((skill, index) => {
-            const IconComponent = SiIcons[skill.icon];
-            
+      <div
+        className="relative w-full py-4"
+        style={{
+          overflowX: 'hidden',
+          overflowY: 'visible',
+          maskImage: 'linear-gradient(90deg, transparent, black 10%, black 90%, transparent)',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent, black 10%, black 90%, transparent)',
+        }}
+      >
+        <div className="marquee-track">
+          {loopSkills.map((skill, i) => {
+            const Icon = iconMap[skill.icon];
             return (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                whileHover={{ 
-                  y: -6, 
-                  borderColor: '#FFA500',
-                  boxShadow: '0 8px 30px rgba(255, 165, 0, 0.2)'
-                }}
-                className="bg-[#1A1A2E] border border-[#2A2A45] rounded-2xl p-5 sm:p-6 flex flex-col items-center justify-center space-y-3 sm:space-y-4 transition-all duration-300 min-h-[160px] sm:min-h-[180px]"
+              <div
+                key={`${skill.name}-${i}`}
+                className="marquee-item flex flex-col items-center gap-3 px-8 shrink-0 rounded-2xl"
+                style={{ minWidth: 110 }}
               >
-                {/* Icon */}
-                <motion.div
-                  whileHover={{ scale: 1.15 }}
-                  transition={{ duration: 0.3 }}
+                <div
+                  className="marquee-icon-box w-16 h-16 rounded-2xl flex items-center justify-center text-3xl"
+                  style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', color: skill.color }}
                 >
-                  {IconComponent ? (
-                    <IconComponent size={window.innerWidth < 640 ? 50 : 60} color={skill.color} />
-                  ) : (
-                    <div 
-                      className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-xl sm:text-2xl font-bold"
-                      style={{ backgroundColor: skill.color }}
-                    >
-                      {skill.name.charAt(0)}
-                    </div>
-                  )}
-                </motion.div>
-
-                {/* Skill Name */}
-                <h3 className="text-white font-semibold text-center text-xs sm:text-sm md:text-base">
-                  {skill.name}
-                </h3>
-
-                {/* Progress Bar */}
-                <div className="w-full progress-bar">
-                  <motion.div
-                    className="progress-fill"
-                    initial={{ width: 0 }}
-                    animate={isInView ? { width: `${skill.proficiency}%` } : { width: 0 }}
-                    transition={{ duration: 1, delay: index * 0.08, ease: 'easeOut' }}
-                  />
+                  {Icon ? <Icon /> : <span className="text-lg font-bold">{skill.name[0]}</span>}
                 </div>
-              </motion.div>
+                <span className="text-sm font-medium whitespace-nowrap" style={{ color: 'var(--text-muted)' }}>
+                  {skill.name}
+                </span>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

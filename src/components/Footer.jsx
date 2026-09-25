@@ -1,14 +1,17 @@
 import { personalInfo } from '../data/portfolioData';
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer id="contact" className="bg-[#13131F] border-t border-[#2A2A45] py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <p className="text-[#AAAACC] text-sm">
-            © 2025 {personalInfo.name}™. All Rights Reserved.
-          </p>
-        </div>
+    <footer className="border-t" style={{ borderColor: 'var(--border)' }}>
+      <div className="section-container py-10 text-center">
+        <p className="text-sm" style={{ color: 'var(--text-faint)' }}>
+          © {year} {personalInfo.name}. All rights reserved.
+        </p>
+        <p className="text-xs mt-1.5" style={{ color: 'var(--text-faint)' }}>
+          Built with <span style={{ color: 'var(--accent-strong)' }}>♥</span> using React &amp; Tailwind CSS
+        </p>
       </div>
     </footer>
   );

@@ -1,36 +1,26 @@
 import { motion } from 'framer-motion';
 
-export default function SectionHeader({ number, title, subtitle, light = false }) {
+export default function SectionHeader({ title, subtitle }) {
   return (
-    <div className="relative mb-16">
-      <span className="section-number">{number}</span>
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="mb-12"
+    >
+      <p className="eyebrow mb-2.5">{subtitle}</p>
+      <h2
+        className="font-bold"
+        style={{
+          fontFamily: 'var(--font-display)',
+          fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)',
+          letterSpacing: '-0.01em',
+          color: 'var(--text-primary)',
+        }}
       >
-        <div className="flex items-center gap-3 mb-3">
-          <span
-            className="text-sm font-semibold tracking-[0.2em] uppercase"
-            style={{ fontFamily: 'var(--font-mono)', color: 'var(--cyan)' }}
-          >
-            {subtitle}
-          </span>
-          <div className="h-px flex-1 max-w-[60px]" style={{ background: 'var(--cyan)', opacity: 0.5 }} />
-        </div>
-        <h2
-          className="font-display font-bold"
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            lineHeight: 1.1,
-            color: light ? 'var(--text-primary)' : 'var(--text-primary)',
-          }}
-        >
-          {title}
-        </h2>
-      </motion.div>
-    </div>
+        {title}
+      </h2>
+    </motion.div>
   );
 }
