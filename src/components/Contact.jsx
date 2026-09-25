@@ -13,7 +13,8 @@ export default function Contact() {
     e.preventDefault();
     const subject = encodeURIComponent(`Portfolio inquiry from ${form.name || 'a visitor'}`);
     const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=${subject}&body=${body}`;
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -115,7 +116,7 @@ export default function Contact() {
             <Send size={15} />
           </button>
           <p className="text-xs text-center" style={{ color: 'var(--text-faint)' }}>
-            Opens your email client with this message pre-filled.
+            Opens Gmail with this message pre-filled, ready to send.
           </p>
         </motion.form>
       </div>
